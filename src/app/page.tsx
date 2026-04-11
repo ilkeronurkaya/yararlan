@@ -3,12 +3,11 @@ import SearchBar from '@/components/SearchBar';
 import CardGrid from '@/components/CardGrid';
 import Footer from '@/components/Footer';
 
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
 
-async function getFeaturedTools() {
+
+async function getFeaturedTools(apiUrl: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/websites`, { cache: 'no-store' });
+    const res = await fetch(`${apiUrl}/api/websites`, { cache: 'no-store' });
     if (!res.ok) {
       console.error(`API Warning [Featured]: Returned status ${res.status}`);
       return [];
@@ -25,9 +24,9 @@ async function getFeaturedTools() {
   }
 }
 
-async function getAllTools(query?: string) {
+async function getAllTools(apiUrl: string, query?: string) {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/websites`);
+    const url = new URL(`${apiUrl}/api/websites`);
     if (query) url.searchParams.set('q', query);
     
     const res = await fetch(url.toString(), { cache: 'no-store' });
@@ -55,8 +54,10 @@ export default async function Home({
   const resolvedParams = await searchParams;
   const q = resolvedParams?.q;
 
-  const featuredTools = await getFeaturedTools();
-  const allTools = await getAllTools(q);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.yararlan.com';
+
+  const featuredTools = await getFeaturedTools(API_URL);
+  const allTools = await getAllTools(API_URL, q);
 
   return (
     <div className="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex flex-col">
