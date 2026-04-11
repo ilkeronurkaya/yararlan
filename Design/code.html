@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#485260",
+                    "on-secondary": "#f7f9ff",
+                    "outline-variant": "#abb3b7",
+                    "secondary-dim": "#4a5462",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-dim": "#53506b",
+                    "on-background": "#2b3437",
+                    "surface": "#f8f9fa",
+                    "primary-fixed-dim": "#ced4e9",
+                    "error-container": "#fe8983",
+                    "on-primary-fixed-variant": "#545b6d",
+                    "background": "#f8f9fa",
+                    "outline": "#737c7f",
+                    "on-error": "#fff7f6",
+                    "on-tertiary": "#fcf7ff",
+                    "tertiary-container": "#d3ceef",
+                    "surface-container-high": "#e2e9ec",
+                    "surface-container-highest": "#dbe4e7",
+                    "inverse-surface": "#0c0f10",
+                    "surface-tint": "#575e70",
+                    "on-tertiary-fixed": "#34314b",
+                    "secondary": "#56606e",
+                    "primary-dim": "#4b5264",
+                    "on-secondary-fixed-variant": "#525c6a",
+                    "on-primary-fixed": "#383f50",
+                    "on-tertiary-fixed-variant": "#514d69",
+                    "surface-bright": "#f8f9fa",
+                    "surface-variant": "#dbe4e7",
+                    "surface-container": "#eaeff1",
+                    "surface-container-low": "#f1f4f6",
+                    "surface-dim": "#d1dce0",
+                    "on-primary": "#f7f7ff",
+                    "inverse-on-surface": "#9b9d9e",
+                    "on-primary-container": "#4b5263",
+                    "tertiary": "#5f5c78",
+                    "secondary-container": "#d9e3f4",
+                    "secondary-fixed-dim": "#cbd5e6",
+                    "on-tertiary-container": "#47445f",
+                    "on-surface": "#2b3437",
+                    "error": "#9f403d",
+                    "on-secondary-fixed": "#36404d",
+                    "primary": "#575e70",
+                    "on-error-container": "#752121",
+                    "primary-fixed": "#dce2f7",
+                    "on-surface-variant": "#586064",
+                    "primary-container": "#dce2f7",
+                    "tertiary-fixed": "#d3ceef",
+                    "secondary-fixed": "#d9e3f4",
+                    "error-dim": "#4e0309",
+                    "tertiary-fixed-dim": "#c5c0e0",
+                    "inverse-primary": "#d9dff5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .no-line { border: none !important; }
+        .tonal-shift-bg { background-color: #f8f9fa; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky bg-[#f8f9fa] dark:bg-slate-900/80 backdrop-blur-xl z-50">
+<nav class="flex justify-between items-center w-full px-8 py-6 max-w-[1440px] mx-auto font-['Inter'] antialiased tracking-tight">
+<div class="text-xl font-bold tracking-tighter text-[#2b3437] dark:text-slate-100 cursor-pointer transition-opacity active:opacity-70">
+                Yararlan
+            </div>
+<div class="hidden md:flex items-center space-x-10">
+<a class="text-[#2b3437] dark:text-white font-medium hover:text-[#2b3437] dark:hover:text-white transition-colors duration-300" href="#">Directory</a>
+<a class="text-[#575e70]/70 dark:text-slate-400 hover:text-[#2b3437] dark:hover:text-white transition-colors duration-300" href="#">Featured</a>
+<a class="text-[#575e70]/70 dark:text-slate-400 hover:text-[#2b3437] dark:hover:text-white transition-colors duration-300" href="#">Curations</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-[#575e70] dark:text-slate-300 text-sm font-medium hover:text-[#2b3437] transition-colors duration-300">Sign In</button>
+</div>
+</nav>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="max-w-[1440px] mx-auto px-8 pt-24 pb-32 flex flex-col items-center text-center">
+<h1 class="text-[3.5rem] font-extrabold tracking-[-0.02em] text-on-surface mb-6 leading-tight">
+                Her araç için bir <span class="text-primary">rehber.</span>
+</h1>
+<p class="text-on-surface-variant max-w-2xl text-lg mb-12 leading-relaxed">
+                İnternetin en iyi araçlarını, yapay zeka destekli kürasyonlarla keşfedin. İhtiyacınız olan her şey tek bir noktada.
+            </p>
+<!-- Centered Search Box -->
+<div class="w-full max-w-2xl relative group">
+<div class="absolute inset-y-0 left-6 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="w-full pl-16 pr-6 py-6 bg-surface-container-lowest border-none rounded-full text-xl text-on-surface placeholder:text-outline-variant focus:ring-0 focus:outline-none shadow-sm group-hover:shadow-md transition-shadow duration-300" placeholder="Ne yapmak istiyorsun? (AI ile...)" type="text"/>
+<div class="absolute right-3 inset-y-3">
+<button class="h-full px-8 bg-primary text-on-primary rounded-full font-semibold hover:bg-primary-dim transition-colors flex items-center gap-2">
+<span>Bul</span>
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Featured Section (Asymmetric Editorial Grid) -->
+<section class="bg-surface-container-low py-24">
+<div class="max-w-[1440px] mx-auto px-8">
+<div class="flex justify-between items-end mb-16">
+<div>
+<span class="text-[10px] uppercase tracking-[0.15em] font-bold text-primary mb-3 block">ÖNE ÇIKANLAR</span>
+<h2 class="text-[2rem] font-bold tracking-tight text-on-surface">Haftanın Seçkisi</h2>
+</div>
+<a class="text-primary font-medium hover:underline underline-offset-8 transition-all" href="#">Tümünü İncele →</a>
+</div>
+<!-- 3x2 Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl group hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="auto_fix">auto_fix</span>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">PRODUCTIVITY</span>
+</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Lex</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Yapay zeka destekli, modern bir yazı editörü. Fikirlerinizi hızla taslağa dönüştürün.</p>
+<div class="pt-6 border-t border-outline-variant/15 flex justify-between items-center text-[11px] font-medium text-outline uppercase tracking-wider">
+<span>Purpose: Writing</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">mouse</span>
+                                Total clicks: 12.4k
+                            </span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl group hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="architecture">architecture</span>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">DESIGN</span>
+</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Framer</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Tasarımı direkt olarak yayına alan interaktif web sitesi oluşturma platformu.</p>
+<div class="pt-6 border-t border-outline-variant/15 flex justify-between items-center text-[11px] font-medium text-outline uppercase tracking-wider">
+<span>Purpose: Web Dev</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">mouse</span>
+                                Total clicks: 45.1k
+                            </span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl group hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="terminal">terminal</span>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">DEVELOPMENT</span>
+</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Cursor</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Kodlama sürecini yapay zeka ile yeniden hayal eden kod düzenleyici.</p>
+<div class="pt-6 border-t border-outline-variant/15 flex justify-between items-center text-[11px] font-medium text-outline uppercase tracking-wider">
+<span>Purpose: Coding AI</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">mouse</span>
+                                Total clicks: 8.9k
+                            </span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl group hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="video_library">video_library</span>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">VIDEO</span>
+</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Runway</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Yeni nesil yaratıcı araçlarla video prodüksiyonunda yapay zeka devrimi.</p>
+<div class="pt-6 border-t border-outline-variant/15 flex justify-between items-center text-[11px] font-medium text-outline uppercase tracking-wider">
+<span>Purpose: Video Gen</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">mouse</span>
+                                Total clicks: 31.2k
+                            </span>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl group hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="inventory_2">inventory_2</span>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">KNOWLEDGE</span>
+</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Readwise</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Okuduklarınızı unutmamanızı sağlayan, her platformla entegre kütüphane.</p>
+<div class="pt-6 border-t border-outline-variant/15 flex justify-between items-center text-[11px] font-medium text-outline uppercase tracking-wider">
+<span>Purpose: Reading</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">mouse</span>
+                                Total clicks: 19.5k
+                            </span>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl group hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="database">database</span>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">UTILITY</span>
+</div>
+<h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">Airtable</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Veritabanı gücünü bir hesap cetveli basitliğiyle sunan hibrit platform.</p>
+<div class="pt-6 border-t border-outline-variant/15 flex justify-between items-center text-[11px] font-medium text-outline uppercase tracking-wider">
+<span>Purpose: Databases</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">mouse</span>
+                                Total clicks: 52.3k
+                            </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA / Footer Teaser -->
+<section class="py-32 bg-surface flex flex-col items-center">
+<div class="max-w-xl text-center">
+<h3 class="text-2xl font-bold mb-4">Bir araç mı biliyorsun?</h3>
+<p class="text-on-surface-variant mb-8">Kürasyonumuza katkıda bulunun ve topluluğun büyümesine yardımcı olun.</p>
+<button class="px-12 py-4 border border-outline-variant text-on-surface font-semibold hover:bg-surface-container-low transition-colors duration-300">Araç Gönder</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-[#f1f4f6] dark:bg-slate-950 flex flex-col md:flex-row justify-between items-center px-12 py-16 border-t border-[#abb3b7]/15">
+<div class="text-[12px] uppercase tracking-widest font-medium text-[#575e70] dark:text-slate-400 mb-8 md:mb-0">
+            © 2024 Yararlan. Built for the Digital Curator.
+        </div>
+<div class="flex gap-10">
+<a class="text-[12px] uppercase tracking-widest font-medium text-[#575e70]/60 dark:text-slate-500 hover:text-primary hover:underline underline-offset-4 transition-all" href="#">Privacy</a>
+<a class="text-[12px] uppercase tracking-widest font-medium text-[#575e70]/60 dark:text-slate-500 hover:text-primary hover:underline underline-offset-4 transition-all" href="#">Terms</a>
+<a class="text-[12px] uppercase tracking-widest font-medium text-[#575e70]/60 dark:text-slate-500 hover:text-primary hover:underline underline-offset-4 transition-all" href="#">Submit Tool</a>
+<a class="text-[12px] uppercase tracking-widest font-medium text-[#575e70]/60 dark:text-slate-500 hover:text-primary hover:underline underline-offset-4 transition-all" href="#">Archive</a>
+</div>
+</footer>
+</body></html>
