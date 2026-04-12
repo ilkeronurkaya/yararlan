@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "deploy": "opennextjs-cloudflare build && wrangler deploy",
+    "build:frontend": "next build && opennextjs-cloudflare build",
+    "deploy:frontend": "npm run build:frontend && wrangler pages deploy .open-next/assets --project-name yararlan --branch main --compatibility-flags=\"nodejs_compat\"",
+    "deploy:api": "cd api-worker && npm install && wrangler deploy",
     "lint": "eslint"
   },
   "dependencies": {
