@@ -109,10 +109,10 @@ export default async function Home({
         {/* Hero Section */}
         <section className="max-w-[1440px] mx-auto px-8 pt-24 pb-32 flex flex-col items-center text-center">
           <h1 className="text-[3.5rem] font-extrabold tracking-[-0.02em] text-on-surface mb-6 leading-tight">
-            Her araç için bir <span className="text-primary">rehber.</span>
+            <LocalizedString id="hero_title_1" /><span className="text-primary"><LocalizedString id="hero_title_2" /></span>
           </h1>
           <p className="text-on-surface-variant max-w-2xl text-lg mb-12 leading-relaxed">
-            İnternetin en iyi araçlarını, yapay zeka destekli kürasyonlarla keşfedin. İhtiyacınız olan her şey tek bir noktada.
+            <LocalizedString id="hero_subtitle" />
           </p>
           
           <SearchBar />
@@ -135,7 +135,7 @@ export default async function Home({
           </section>
         )}
 
-        <section className="py-24 max-w-[1440px] mx-auto px-8 relative">
+        <section id="results" className="py-24 max-w-[1440px] mx-auto px-8 relative">
           <div className="mb-16">
              <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-primary mb-3 block">{category ? `KATEGORİ: ${category.toUpperCase()}` : <LocalizedString id="directory" />}</span>
              <h2 className="text-[2rem] font-bold tracking-tight text-on-surface">
@@ -154,7 +154,7 @@ export default async function Home({
               <span className="material-symbols-outlined text-[18px]">chevron_left</span>
             </Link>
             <span className="px-4 py-2 font-medium bg-surface-container-low rounded-xl">
-              Sayfa {page}
+              <LocalizedString id="pagination_page" /> {page}
             </span>
             <Link 
               href={`/?${new URLSearchParams({ ...(q && {q}), ...(category && {category}), page: (page + 1).toString() }).toString()}`}

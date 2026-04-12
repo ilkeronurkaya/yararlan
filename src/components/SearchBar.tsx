@@ -23,6 +23,7 @@ const PERSONAS = [
 ];
 
 const SearchBarInner = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useLanguage();
   const [query, setQuery] = useState(searchParams.get('q') || '');
@@ -49,7 +50,7 @@ const SearchBarInner = () => {
     }
     
     // Explicit fallback for client side push without reloading natively
-    router.push(`/?${params.toString()}`);
+    router.push(`/?${params.toString()}#results`);
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -60,7 +61,7 @@ const SearchBarInner = () => {
     } else {
       params.delete('q');
     }
-    router.push(`/?${params.toString()}`);
+    router.push(`/?${params.toString()}#results`);
   };
 
   return (
@@ -115,7 +116,7 @@ const SearchBarInner = () => {
         {/* Tier 2 & 3: Intents and Personas */}
         <div className="flex flex-col md:flex-row gap-6 pt-6 border-t border-outline-variant/20">
           <div className="flex-1 flex flex-col gap-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-outline">NE İÇİN KULLANACAKSIN?</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-outline">{t('search_intent')}</span>
             <div className="flex flex-wrap gap-2">
               {INTENTS.map((intent) => {
                 const isActive = activeIntents.includes(intent);
@@ -137,7 +138,7 @@ const SearchBarInner = () => {
           </div>
 
           <div className="flex-1 flex flex-col gap-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-outline">KİM İÇİN?</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-outline">{t('search_persona')}</span>
             <div className="flex flex-wrap gap-2">
               {PERSONAS.map((persona) => {
                 const isActive = activePersonas.includes(persona);

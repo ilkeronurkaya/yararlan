@@ -1,10 +1,12 @@
 'use client';
 import { useState } from 'react';
+import { useLanguage } from './LanguageContext';
 
 export default function SuggestModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [websiteName, setWebsiteName] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const { t } = useLanguage();
 
   if (!isOpen) return null;
 
@@ -14,7 +16,8 @@ export default function SuggestModal({ isOpen, onClose }: { isOpen: boolean; onC
 
     setLoading(true);
     try {
-      const res = await fetch('/api/suggest', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://yararlan-api.ilkeronurkaya.workers.dev';
+      const res = await fetch(`${apiUrl}/api/suggest`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ website_name: websiteName }),
@@ -38,7 +41,7 @@ export default function SuggestModal({ isOpen, onClose }: { isOpen: boolean; onC
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
       <div className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md p-8 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-[#2b3437] dark:text-white tracking-tight">Araç Öner</h2>
+          <h2 className="text-2xl font-bold text-[#2b3437] dark:text-white tracking-tight">{t('suggest_cta')}</h2>
           <button onClick={onClose} className="text-slate-500 hover:text-slate-800 dark:hover:text-white transition">
             <span className="material-symbols-outlined font-light">close</span>
           </button>
@@ -55,7 +58,7 @@ export default function SuggestModal({ isOpen, onClose }: { isOpen: boolean; onC
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Bildiğiniz harika bir yapay zeka aracı mı var? Bize adını veya web sitesini iletin, kürasyonumuza dahil edelim.
+              {t('suggest_desc')}
             </p>
             
             <div className="flex flex-col gap-2">
@@ -80,7 +83,7 @@ export default function SuggestModal({ isOpen, onClose }: { isOpen: boolean; onC
               {loading ? (
                 <span className="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
               ) : (
-                'Ziyareti Kaydet'
+                t('suggest_cta')
               )}
             </button>
           </form>
