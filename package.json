@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "build:frontend": "next build && opennextjs-cloudflare build",
-    "deploy:frontend": "npm run build:frontend && wrangler pages deploy .open-next/assets --project-name yararlan --branch main --compatibility-flags=\"nodejs_compat\"",
+    "build:frontend": "next build && opennextjs-cloudflare build && cp .open-next/worker.js .open-next/assets/_worker.js",
+    "deploy:frontend": "npm run build:frontend && wrangler pages deploy .open-next/assets --project-name yararlan --branch main",
     "deploy:api": "cd api-worker && npm install && wrangler deploy",
     "lint": "eslint"
   },
