@@ -7,30 +7,8 @@ const Footer = () => {
         © {new Date().getFullYear()} Yararlan. Built for the Digital Curator.
       </div>
       <div className="flex gap-10">
-        <Link 
-          href="/privacy" 
-          className="text-[12px] uppercase tracking-widest font-medium text-[#575e70]/60 dark:text-slate-500 hover:text-primary hover:underline underline-offset-4 transition-all"
-        >
-          Privacy
-        </Link>
-        <Link 
-          href="/terms" 
-          className="text-[12px] uppercase tracking-widest font-medium text-[#575e70]/60 dark:text-slate-500 hover:text-primary hover:underline underline-offset-4 transition-all"
-        >
-          Terms
-        </Link>
-        <Link 
-          href="/submit" 
-          className="text-[12px] uppercase tracking-widest font-medium text-[#575e70]/60 dark:text-slate-500 hover:text-primary hover:underline underline-offset-4 transition-all"
-        >
-          Submit Tool
-        </Link>
-        <Link 
-          href="/archive" 
-          className="text-[12px] uppercase tracking-widest font-medium text-[#575e70]/60 dark:text-slate-500 hover:text-primary hover:underline underline-offset-4 transition-all"
-        >
-          Archive
-        </Link>
+        {/* Legacy links stripped securely for Phase 2 stability */}
+        {/* We can reactivate these safely once the specific page endpoints are physically completed visually in Next.js structure. */}
       </div>
     </footer>
   );

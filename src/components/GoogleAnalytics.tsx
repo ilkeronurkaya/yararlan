@@ -36,9 +36,19 @@ const GoogleAnalyticsInner = () => {
                     __html: `
                         window.dataLayer = window.dataLayer || [];
                         function gtag(){dataLayer.push(arguments);}
+
+                        // Consent Mode v2 Configuration
+                        gtag('consent', 'default', {
+                          'ad_storage': 'denied',
+                          'ad_user_data': 'denied',
+                          'ad_personalization': 'denied',
+                          'analytics_storage': 'granted' // Defaults to granted to capture curation interactions organically without block
+                        });
+
                         gtag('js', new Date());
                         gtag('config', '${GA_MEASUREMENT_ID}', {
                             page_path: window.location.pathname,
+                            send_page_view: false
                         });
                     `,
                 }}

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from './LanguageContext';
 
 interface CardProps {
   id: number;
@@ -12,6 +13,8 @@ interface CardProps {
   category: string;
   click_count: number;
   purpose?: string;
+  intent_tags?: string;
+  persona_tags?: string;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -23,11 +26,28 @@ const Card: React.FC<CardProps> = ({
   short_description,
   category,
   click_count,
-  purpose
+  purpose,
+  intent_tags,
+  persona_tags
 }) => {
+  const { t } = useLanguage();
+
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
+    // Telemetry: GA4
+    if (typeof window !== 'undefined' && 'gtag' in window) {
+      // @ts-ignore
+      window.gtag('event', 'click_tool_card', {
+        tool_id: id,
+        tool_name: name,
+        primary_category: category,
+        intent_tags: intent_tags || '',
+        persona_tags: persona_tags || '',
+        destination_domain: url
+      });
+    }
+
     // 1. Call POST /api/click
     try {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/click`, {
@@ -58,9 +78,19 @@ const Card: React.FC<CardProps> = ({
             <span className="material-symbols-outlined text-primary">auto_fix</span>
           )}
         </div>
-        <span className="text-[10px] font-bold uppercase tracking-widest text-outline">
-          {category}
-        </span>
+        <div className="flex gap-2">
+          {category && (
+            <span className="text-[10px] font-bold uppercase tracking-widest text-outline">
+              {category}
+            </span>
+          )}
+          {intent_tags && (
+             <span className="text-[10px] font-bold tracking-widest px-2 py-1 bg-surface-container-high rounded text-on-surface-variant flex items-center">
+               <span className="material-symbols-outlined text-[12px] mr-1">campaign</span>
+               {intent_tags.split(',')[0]}
+             </span>
+          )}
+        </div>
       </div>
       
       <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
@@ -71,11 +101,27 @@ const Card: React.FC<CardProps> = ({
         {short_description}
       </p>
       
-      <div className="pt-6 border-t border-outline-variant/15 flex justify-between items-center text-[11px] font-medium text-outline uppercase tracking-wider">
-        <span>Purpose: {purpose || category}</span>
+      <div className="flex justify-between items-center mb-6">
+        <button 
+           onClick={(e) => { e.stopPropagation(); handleClick(e); }}
+           className="text-xs font-semibold px-4 py-2 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors flex items-center gap-1"
+        >
+          {t('official_site')} <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+        </button>
+        <button 
+           onClick={(e) => { e.stopPropagation(); }}
+           className="text-outline hover:text-primary transition-colors flex items-center justify-center p-2"
+           title="Save"
+        >
+          <span className="material-symbols-outlined text-xl">bookmark_add</span>
+        </button>
+      </div>
+
+      <div className="pt-5 border-t border-outline-variant/15 flex justify-between items-center text-[10px] font-medium text-outline uppercase tracking-wider">
+        <span>{t('purpose')}: {purpose || category}</span>
         <span className="flex items-center gap-1">
           <span className="material-symbols-outlined text-xs">mouse</span>
-          Total clicks: {click_count > 1000 ? `${(click_count / 1000).toFixed(1)}k` : click_count}
+          {t('total_clicks')}: {click_count > 1000 ? `${(click_count / 1000).toFixed(1)}k` : click_count}
         </span>
       </div>
     </div>

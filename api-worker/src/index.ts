@@ -15,6 +15,15 @@ app.use('/api/*', cors({
 
 app.get('/api/websites', async (c) => {
   const q = c.req.query('q');
+  const category = c.req.query('category');
+  const intent = c.req.query('intent');
+  const persona = c.req.query('persona');
+  const pageParam = c.req.query('page');
+  
+  const page = parseInt(pageParam || '1', 10);
+  const limit = 20;
+  const offset = (page > 0 ? page - 1 : 0) * limit;
+
   let query = 'SELECT * FROM websites WHERE is_active = 1';
   const params: any[] = [];
   
@@ -22,6 +31,27 @@ app.get('/api/websites', async (c) => {
     query += ' AND (name LIKE ? OR short_description LIKE ?)';
     params.push(`%${q}%`, `%${q}%`);
   }
+  
+  if (category) {
+    query += ' AND category = ?';
+    params.push(category);
+  }
+
+  if (intent) {
+    const intents = intent.split(',');
+    query += ` AND (${intents.map(() => 'intent_tags LIKE ?').join(' OR ')})`;
+    params.push(...intents.map(i => `%${i.trim()}%`));
+  }
+
+  if (persona) {
+    const personas = persona.split(',');
+    query += ` AND (${personas.map(() => 'persona_tags LIKE ?').join(' OR ')})`;
+    params.push(...personas.map(p => `%${p.trim()}%`));
+  }
+  
+  // Custom sorting and pagination natively
+  query += ` ORDER BY click_count DESC LIMIT ? OFFSET ?`;
+  params.push(limit, offset);
   
   try {
     const { results } = await c.env.DB.prepare(query).bind(...params).all();
@@ -48,6 +78,21 @@ app.get('/api/websites/:slug', async (c) => {
     return c.json(result);
   } catch(error: any) {
     return c.json({ error: 'Database fetching failure: ' + error.message }, 500);
+  }
+});
+
+app.post('/api/suggest', async (c) => {
+  try {
+    const body = await c.req.json();
+    if (!body || !body.website_name) return c.json({ error: 'Invalid payload: Website name is required' }, 400);
+
+    const result = await c.env.DB.prepare('INSERT INTO suggested_tools (website_name) VALUES (?)')
+      .bind(body.website_name)
+      .run();
+
+    return c.json({ success: true }, 201);
+  } catch (error: any) {
+    return c.json({ error: 'Database mutation failure: ' + error.message }, 500);
   }
 });
 

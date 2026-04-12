@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "next dev",
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build && cp .open-next/worker.js .open-next/assets/_worker.js",
     "deploy:frontend": "npm run build:cloudflare && wrangler pages deploy .open-next/assets --project-name yararlan --branch main",
