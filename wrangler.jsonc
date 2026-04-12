@@ -3,6 +3,10 @@
 	"main": ".open-next/worker.js",
 	"name": "yararlan",
 	"compatibility_date": "2026-04-11",
+	"routes": [
+		{ "pattern": "yararlan.com", "custom_domain": true },
+		{ "pattern": "www.yararlan.com", "custom_domain": true }
+	],
 	"compatibility_flags": [
 		"nodejs_compat",
 		"global_fetch_strictly_public"
@@ -21,7 +25,7 @@
 	],
 	"vars": {
 		"NEXT_PUBLIC_API_URL": "https://api.yararlan.com",
-		"NEXT_PUBLIC_GA_ID": "G-XXXXXXXXXX"
+		"NEXT_PUBLIC_GA_ID": "G-E1LGKVSVSM"
 	},
 	"images": {
 		// Enable image optimization
