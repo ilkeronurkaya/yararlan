@@ -81,7 +81,7 @@ const Card: React.FC<CardProps> = ({
         <div className="flex gap-2">
           {category && (
             <span className="text-[10px] font-bold uppercase tracking-widest text-outline">
-              {category}
+              {t(category)}
             </span>
           )}
           {intent_tags && (
@@ -118,7 +118,7 @@ const Card: React.FC<CardProps> = ({
       </div>
 
       <div className="pt-5 border-t border-outline-variant/15 flex justify-between items-center text-[10px] font-medium text-outline uppercase tracking-wider">
-        <span>{t('purpose')}: {purpose || category}</span>
+        <span>{t('purpose')}: {purpose || t(category)}</span>
         <span className="flex items-center gap-1">
           <span className="material-symbols-outlined text-xs">mouse</span>
           {t('total_clicks')}: {click_count > 1000 ? `${(click_count / 1000).toFixed(1)}k` : click_count}

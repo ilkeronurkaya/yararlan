@@ -137,9 +137,9 @@ export default async function Home({
 
         <section id="results" className="py-24 max-w-[1440px] mx-auto px-8 relative">
           <div className="mb-16">
-             <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-primary mb-3 block">{category ? `KATEGORİ: ${category.toUpperCase()}` : <LocalizedString id="directory" />}</span>
+             <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-primary mb-3 block">{category ? <>KATEGORİ: <LocalizedString id={category} /></> : <LocalizedString id="directory" />}</span>
              <h2 className="text-[2rem] font-bold tracking-tight text-on-surface">
-               {q ? `"${q}" için sonuçlar` : <LocalizedString id="category_title" />}
+               {q ? `"${q}" için sonuçlar` : (category ? <LocalizedString id={category} /> : <LocalizedString id="category_title" />)}
              </h2>
           </div>
 

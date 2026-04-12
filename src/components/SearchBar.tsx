@@ -106,7 +106,7 @@ const SearchBarInner = () => {
                       : 'bg-surface hover:bg-surface-container border-outline-variant text-on-surface hover:text-primary'
                   }`}
                 >
-                  {cat}
+                  {t(cat)}
                 </button>
               );
             })}
