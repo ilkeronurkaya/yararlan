@@ -16,9 +16,11 @@ const GoogleAnalyticsInner = () => {
         const url = pathname + searchParams.toString();
         
         // @ts-ignore
-        window.gtag('config', GA_MEASUREMENT_ID, {
-            page_path: url,
-        });
+        if (typeof window.gtag === 'function') {
+            window.gtag('config', GA_MEASUREMENT_ID, {
+                page_path: url,
+            });
+        }
     }, [pathname, searchParams]);
 
     if (!GA_MEASUREMENT_ID) return null;
@@ -26,12 +28,12 @@ const GoogleAnalyticsInner = () => {
     return (
         <>
             <Script
-                strategy="lazyOnload"
+                strategy="afterInteractive"
                 src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
             />
             <Script
                 id="google-analytics"
-                strategy="lazyOnload"
+                strategy="afterInteractive"
                 dangerouslySetInnerHTML={{
                     __html: `
                         window.dataLayer = window.dataLayer || [];

@@ -2,7 +2,7 @@
   if (!a[d]) {
     switch (d) {
        case 246: b(require("./chunks/246.js")); break;
-       case 586: b(require("./chunks/586.js")); break;
+       case 331: b(require("./chunks/331.js")); break;
        case 611: b(require("./chunks/611.js")); break;
        case 692: b(require("./chunks/692.js")); break;
        case 311: a[d] = 1; break;
