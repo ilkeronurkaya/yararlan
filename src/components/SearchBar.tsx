@@ -6,42 +6,57 @@ import Link from 'next/link';
 
 import { useLanguage } from './LanguageContext';
 
-const CATEGORIES = [
-  'İçerik Üretimi', 'Video & Reels', 'Görsel/Tasarım', 'Araştırma & Analiz',
-  'Kod & Geliştirme', 'Veri & Dashboard', 'Pazarlama & Growth', 
-  'Otomasyon & Agent', 'Ses & Müzik', 'Sunum & Doküman'
+export const CATEGORIES = [
+  { id: 1, slug: 'icerik-uretimi', tr: 'İçerik Üretimi', en: 'Content Creation', es: 'Creación de Contenido', zh: '内容创作' },
+  { id: 2, slug: 'video-reels', tr: 'Video & Reels', en: 'Video & Reels', es: 'Video y Reels', zh: '视频和短卷' },
+  { id: 3, slug: 'gorsel-tasarim', tr: 'Görsel/Tasarım', en: 'Visual/Design', es: 'Visual/Diseño', zh: '视觉/设计' },
+  { id: 4, slug: 'arastirma-analiz', tr: 'Araştırma & Analiz', en: 'Research & Analysis', es: 'Investigación y Analítica', zh: '研究与分析' },
+  { id: 5, slug: 'kod-gelistirme', tr: 'Kod & Geliştirme', en: 'Code & Development', es: 'Código y Desarrollo', zh: '代码与开发' },
+  { id: 6, slug: 'veri-dashboard', tr: 'Veri & Dashboard', en: 'Data & Dashboard', es: 'Datos y Tablero', zh: '数据与仪表盘' },
+  { id: 7, slug: 'pazarlama-growth', tr: 'Pazarlama & Growth', en: 'Marketing & Growth', es: 'Marketing y Crecimiento', zh: '营销与增长' },
+  { id: 8, slug: 'otomasyon-agent', tr: 'Otomasyon & Agent', en: 'Automation & Agent', es: 'Automatización y Agente', zh: '自动化与代理' },
+  { id: 9, slug: 'ses-muzik', tr: 'Ses & Müzik', en: 'Audio & Music', es: 'Audio y Música', zh: '音频与音乐' },
+  { id: 10, slug: 'sunum-dokuman', tr: 'Sunum & Doküman', en: 'Presentation & Document', es: 'Presentación y Documento', zh: '演示与文档' }
 ];
 
-const INTENTS = [
-  'Para Kazan', 'Viral İçerik', 'Zamandan Kazan', 
-  'Otomatikleştir', 'Skill Up / Öğren', 'Growth Hack'
+export const INTENTS = [
+  { id: 1, slug: 'para-kazan', tr: 'Para Kazan', en: 'Make Money', es: 'Ganar Dinero', zh: '赚钱' },
+  { id: 2, slug: 'viral-icerik', tr: 'Viral İçerik', en: 'Viral Content', es: 'Contenido Viral', zh: '病毒式内容' },
+  { id: 3, slug: 'zamandan-kazan', tr: 'Zamandan Kazan', en: 'Save Time', es: 'Ahorrar Tiempo', zh: '省时间' },
+  { id: 4, slug: 'otomatiklestir', tr: 'Otomatikleştir', en: 'Automate', es: 'Automatizar', zh: '自动化' },
+  { id: 5, slug: 'skill-up', tr: 'Skill Up / Öğren', en: 'Skill Up / Learn', es: 'Aprender / Mejorar', zh: '学习/进步' },
+  { id: 6, slug: 'growth-hack', tr: 'Growth Hack', en: 'Growth Hack', es: 'Growth Hack', zh: '增长黑客' }
 ];
 
-const PERSONAS = [
-  'Developer', 'Designer', 'Content Creator', 
-  'Founder / Girişimci', 'Marketer', 'Öğrenci'
+export const PERSONAS = [
+  { id: 1, slug: 'developer', tr: 'Developer', en: 'Developer', es: 'Desarrollador', zh: '开发人员' },
+  { id: 2, slug: 'designer', tr: 'Designer', en: 'Designer', es: 'Diseñador', zh: '设计师' },
+  { id: 3, slug: 'content-creator', tr: 'Content Creator', en: 'Content Creator', es: 'Creador de Contenido', zh: '内容创作者' },
+  { id: 4, slug: 'founder', tr: 'Founder / Girişimci', en: 'Founder / Entrepreneur', es: 'Fundador / Emprendedor', zh: '创始人/企业家' },
+  { id: 5, slug: 'marketer', tr: 'Marketer', en: 'Marketer', es: 'Comercializador', zh: '营销人员' },
+  { id: 6, slug: 'ogrenci', tr: 'Öğrenci', en: 'Student', es: 'Estudiante', zh: '学生' }
 ];
 
 const SearchBarInner = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [query, setQuery] = useState(searchParams.get('q') || '');
 
-  const activeCategory = searchParams.get('category') || 'İçerik Üretimi';
-  const activeIntents = searchParams.get('intent')?.split(',').filter(Boolean) || [];
-  const activePersonas = searchParams.get('persona')?.split(',').filter(Boolean) || [];
+  const activeCategoryId = searchParams.get('category_id') || '1';
+  const activeIntentIds = searchParams.get('intent_id')?.split(',').filter(Boolean) || [];
+  const activePersonaIds = searchParams.get('persona_id')?.split(',').filter(Boolean) || [];
 
   const toggleArrayParam = (current: string[], value: string) => {
     if (current.includes(value)) return current.filter(v => v !== value);
     return [...current, value];
   };
 
-  const syncTagPush = (key: 'category' | 'intent' | 'persona', value: string | string[]) => {
+  const syncTagPush = (key: 'category_id' | 'intent_id' | 'persona_id', value: string | string[]) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', '1'); // reset pagination on filter change
     
-    if (key === 'category') {
+    if (key === 'category_id') {
       params.set(key, value as string);
     } else {
       const arr = value as string[];
@@ -63,6 +78,9 @@ const SearchBarInner = () => {
     }
     router.push(`/?${params.toString()}#results`);
   };
+
+  // Helper macro for typescript and dynamic localization
+  const getLocalized = (obj: any) => obj[language] || obj.tr;
 
   return (
 
@@ -95,18 +113,18 @@ const SearchBarInner = () => {
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-2">
             {CATEGORIES.map((cat) => {
-              const isActive = activeCategory === cat;
+              const isActive = activeCategoryId === cat.id.toString();
               return (
                 <button
-                  key={cat}
-                  onClick={() => syncTagPush('category', cat)}
+                  key={cat.id}
+                  onClick={() => syncTagPush('category_id', cat.id.toString())}
                   className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 border ${
                     isActive 
                       ? 'bg-primary text-on-primary border-primary shadow-md scale-105' 
                       : 'bg-surface hover:bg-surface-container border-outline-variant text-on-surface hover:text-primary'
                   }`}
                 >
-                  {t(cat)}
+                  {getLocalized(cat)}
                 </button>
               );
             })}
@@ -119,18 +137,18 @@ const SearchBarInner = () => {
             <span className="text-[10px] font-bold uppercase tracking-widest text-outline">{t('search_intent')}</span>
             <div className="flex flex-wrap gap-2">
               {INTENTS.map((intent) => {
-                const isActive = activeIntents.includes(intent);
+                const isActive = activeIntentIds.includes(intent.id.toString());
                 return (
                   <button
-                    key={intent}
-                    onClick={() => syncTagPush('intent', toggleArrayParam(activeIntents, intent))}
+                    key={intent.id}
+                    onClick={() => syncTagPush('intent_id', toggleArrayParam(activeIntentIds, intent.id.toString()))}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
                       isActive 
                         ? 'bg-secondary/10 border-secondary text-secondary' 
                         : 'bg-transparent border-outline-variant text-on-surface-variant hover:border-secondary/50'
                     }`}
                   >
-                    {intent}
+                    {getLocalized(intent)}
                   </button>
                 );
               })}
@@ -141,18 +159,18 @@ const SearchBarInner = () => {
             <span className="text-[10px] font-bold uppercase tracking-widest text-outline">{t('search_persona')}</span>
             <div className="flex flex-wrap gap-2">
               {PERSONAS.map((persona) => {
-                const isActive = activePersonas.includes(persona);
+                const isActive = activePersonaIds.includes(persona.id.toString());
                 return (
                   <button
-                    key={persona}
-                    onClick={() => syncTagPush('persona', toggleArrayParam(activePersonas, persona))}
+                    key={persona.id}
+                    onClick={() => syncTagPush('persona_id', toggleArrayParam(activePersonaIds, persona.id.toString()))}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
                       isActive 
                         ? 'bg-tertiary/10 border-tertiary text-tertiary' 
                         : 'bg-transparent border-outline-variant text-on-surface-variant hover:border-tertiary/50'
                     }`}
                   >
-                    {persona}
+                    {getLocalized(persona)}
                   </button>
                 );
               })}

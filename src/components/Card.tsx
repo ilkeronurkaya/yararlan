@@ -3,6 +3,33 @@
 import React from 'react';
 import { useLanguage } from './LanguageContext';
 
+interface CategoryObj {
+  id: number;
+  slug: string;
+  name_tr: string;
+  name_en: string;
+  name_es: string;
+  name_zh?: string;
+}
+
+interface IntentObj {
+  id: number;
+  slug: string;
+  name_tr: string;
+  name_en: string;
+  name_es: string;
+  name_zh?: string;
+}
+
+interface PersonaObj {
+  id: number;
+  slug: string;
+  name_tr: string;
+  name_en: string;
+  name_es: string;
+  name_zh?: string;
+}
+
 interface CardProps {
   id: number;
   slug: string;
@@ -10,11 +37,11 @@ interface CardProps {
   url: string;
   logo_url?: string;
   short_description: string;
-  category: string;
+  category?: CategoryObj;
   click_count: number;
   purpose?: string;
-  intent_tags?: string;
-  persona_tags?: string;
+  intents?: IntentObj[];
+  personas?: PersonaObj[];
 }
 
 const Card: React.FC<CardProps> = ({
@@ -27,10 +54,15 @@ const Card: React.FC<CardProps> = ({
   category,
   click_count,
   purpose,
-  intent_tags,
-  persona_tags
+  intents,
+  personas
 }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+
+  const getTranslatedName = (obj: any) => {
+    if (!obj) return '';
+    return obj[`name_${language}`] || obj.name_tr;
+  };
 
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -41,9 +73,9 @@ const Card: React.FC<CardProps> = ({
       window.gtag('event', 'click_tool_card', {
         tool_id: id,
         tool_name: name,
-        primary_category: category,
-        intent_tags: intent_tags || '',
-        persona_tags: persona_tags || '',
+        primary_category: getTranslatedName(category),
+        intent_tags: intents?.map(getTranslatedName).join(',') || '',
+        persona_tags: personas?.map(getTranslatedName).join(',') || '',
         destination_domain: url
       });
     }
@@ -81,13 +113,13 @@ const Card: React.FC<CardProps> = ({
         <div className="flex gap-2">
           {category && (
             <span className="text-[10px] font-bold uppercase tracking-widest text-outline">
-              {t(category)}
+              {getTranslatedName(category)}
             </span>
           )}
-          {intent_tags && (
+          {intents && intents.length > 0 && (
              <span className="text-[10px] font-bold tracking-widest px-2 py-1 bg-surface-container-high rounded text-on-surface-variant flex items-center">
                <span className="material-symbols-outlined text-[12px] mr-1">campaign</span>
-               {intent_tags.split(',')[0]}
+               {getTranslatedName(intents[0])}
              </span>
           )}
         </div>
@@ -118,7 +150,7 @@ const Card: React.FC<CardProps> = ({
       </div>
 
       <div className="pt-5 border-t border-outline-variant/15 flex justify-between items-center text-[10px] font-medium text-outline uppercase tracking-wider">
-        <span>{t('purpose')}: {purpose || t(category)}</span>
+        <span>{t('purpose')}: {purpose || getTranslatedName(category)}</span>
         <span className="flex items-center gap-1">
           <span className="material-symbols-outlined text-xs">mouse</span>
           {t('total_clicks')}: {click_count > 1000 ? `${(click_count / 1000).toFixed(1)}k` : click_count}

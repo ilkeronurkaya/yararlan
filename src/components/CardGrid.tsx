@@ -10,9 +10,11 @@ interface Tool {
   url: string;
   logo_url?: string;
   short_description: string;
-  category: string;
+  category?: any;
   click_count: number;
   purpose?: string;
+  intents?: any[];
+  personas?: any[];
 }
 
 interface CardGridProps {
