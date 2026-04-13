@@ -7,7 +7,7 @@
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build && cp .open-next/worker.js .open-next/assets/_worker.js",
     "deploy:frontend": "npm run build:cloudflare && wrangler pages deploy .open-next/assets --project-name yararlan --branch main",
-    "deploy:api": "cd api-worker && npm install && wrangler deploy",
+    "deploy:api": "cd api-worker && npm install && npx wrangler deploy",
     "lint": "eslint"
   },
   "dependencies": {
