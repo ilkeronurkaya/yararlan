@@ -104,7 +104,7 @@ export default async function Home({
       <Header />
       
       <main className="flex-grow">
-        <section className="max-w-[1440px] mx-auto px-8 pt-24 pb-32 flex flex-col items-center text-center">
+        <section className="max-w-[1440px] mx-auto px-8 pt-12 pb-16 flex flex-col items-center text-center">
           <h1 className="text-[3.5rem] font-extrabold tracking-[-0.02em] text-on-surface mb-6 leading-tight">
             <LocalizedString id="hero_title_1" /><span className="text-primary"><LocalizedString id="hero_title_2" /></span>
           </h1>
@@ -116,14 +116,14 @@ export default async function Home({
         </section>
 
         {!q && recommendedTools && recommendedTools.length > 0 && (
-          <section className="bg-surface-container-low py-24">
+          <section className="bg-surface-container-low py-12">
             <div className="max-w-[1440px] mx-auto px-8">
-              <div className="flex justify-between items-end mb-16">
+              <div className="flex justify-between items-end mb-8">
                 <div>
                   <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-primary mb-3 block"><LocalizedString id="recommended_title" /></span>
                   <h2 className="text-[2rem] font-bold tracking-tight text-on-surface"><LocalizedString id="recommended_title" /></h2>
                 </div>
-                <button className="text-primary font-medium hover:underline underline-offset-8 transition-all">Tümünü İncele →</button>
+                <button className="text-primary font-medium hover:underline underline-offset-8 transition-all"><LocalizedString id="view_all" /></button>
               </div>
               
               <CardGrid tools={recommendedTools as any} />
@@ -131,8 +131,8 @@ export default async function Home({
           </section>
         )}
 
-        <section id="results" className="py-24 max-w-[1440px] mx-auto px-8 relative">
-          <div className="mb-16">
+        <section id="results" className="py-12 max-w-[1440px] mx-auto px-8 relative">
+          <div className="mb-8">
              <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-primary mb-3 block">{category_id ? <>KATEGORİ</> : <LocalizedString id="directory" />}</span>
              <h2 className="text-[2rem] font-bold tracking-tight text-on-surface">
                {q ? `"${q}" için sonuçlar` : (category_id ? "Kategori Sonuçları" : <LocalizedString id="category_title" />)}
@@ -141,7 +141,7 @@ export default async function Home({
 
           <CardGrid tools={allTools as any} />
           
-          <div className="flex justify-center items-center mt-16 gap-3">
+          <div className="flex justify-center items-center mt-8 gap-3">
             <Link 
               href={`/?${new URLSearchParams({ ...(q && {q}), ...(category_id && {category_id}), page: Math.max(1, page - 1).toString() }).toString()}`}
               className="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant text-on-surface hover:bg-surface-container-low transition"

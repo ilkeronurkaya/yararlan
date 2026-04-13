@@ -82,7 +82,8 @@ const Card: React.FC<CardProps> = ({
 
     // 1. Call POST /api/click
     try {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/click`, {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://yararlan-api.ilkeronurkaya.workers.dev';
+      fetch(`${API_URL}/api/click`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
