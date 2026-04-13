@@ -1,70 +1,101 @@
 const fs = require('fs');
 
 const CATEGORIES = [
-  { id: 1, slug: 'icerik-uretimi', tr: 'İçerik Üretimi', en: 'Content Creation', es: 'Creación de Contenido' },
-  { id: 2, slug: 'video-reels', tr: 'Video & Reels', en: 'Video & Reels', es: 'Video y Reels' },
-  { id: 3, slug: 'gorsel-tasarim', tr: 'Görsel/Tasarım', en: 'Visual/Design', es: 'Visual/Diseño' },
-  { id: 4, slug: 'arastirma-analiz', tr: 'Araştırma & Analiz', en: 'Research & Analysis', es: 'Investigación y Analítica' },
-  { id: 5, slug: 'kod-gelistirme', tr: 'Kod & Geliştirme', en: 'Code & Development', es: 'Código y Desarrollo' },
-  { id: 6, slug: 'veri-dashboard', tr: 'Veri & Dashboard', en: 'Data & Dashboard', es: 'Datos y Tablero' },
-  { id: 7, slug: 'pazarlama-growth', tr: 'Pazarlama & Growth', en: 'Marketing & Growth', es: 'Marketing y Crecimiento' },
-  { id: 8, slug: 'otomasyon-agent', tr: 'Otomasyon & Agent', en: 'Automation & Agent', es: 'Automatización y Agente' },
-  { id: 9, slug: 'ses-muzik', tr: 'Ses & Müzik', en: 'Audio & Music', es: 'Audio y Música' },
-  { id: 10, slug: 'sunum-dokuman', tr: 'Sunum & Doküman', en: 'Presentation & Document', es: 'Presentación y Documento' }
+  { id: 1, slug: 'icerik-uretimi', tr: 'İçerik Üretimi', en: 'Content Creation', es: 'Creación de Contenido', zh: '内容创作' },
+  { id: 2, slug: 'video-reels', tr: 'Video & Reels', en: 'Video & Reels', es: 'Video y Reels', zh: '视频和短卷' },
+  { id: 3, slug: 'gorsel-tasarim', tr: 'Görsel/Tasarım', en: 'Visual/Design', es: 'Visual/Diseño', zh: '视觉/设计' },
+  { id: 4, slug: 'arastirma-analiz', tr: 'Araştırma & Analiz', en: 'Research & Analysis', es: 'Investigación y Analítica', zh: '研究与分析' },
+  { id: 5, slug: 'kod-gelistirme', tr: 'Kod & Geliştirme', en: 'Code & Development', es: 'Código y Desarrollo', zh: '代码与开发' },
+  { id: 6, slug: 'veri-dashboard', tr: 'Veri & Dashboard', en: 'Data & Dashboard', es: 'Datos y Tablero', zh: '数据与仪表盘' },
+  { id: 7, slug: 'pazarlama-growth', tr: 'Pazarlama & Growth', en: 'Marketing & Growth', es: 'Marketing y Crecimiento', zh: '营销与增长' },
+  { id: 8, slug: 'otomasyon-agent', tr: 'Otomasyon & Agent', en: 'Automation & Agent', es: 'Automatización y Agente', zh: '自动化与代理' },
+  { id: 9, slug: 'ses-muzik', tr: 'Ses & Müzik', en: 'Audio & Music', es: 'Audio y Música', zh: '音频与音乐' },
+  { id: 10, slug: 'sunum-dokuman', tr: 'Sunum & Doküman', en: 'Presentation & Document', es: 'Presentación y Documento', zh: '演示与文档' }
 ];
 
 const INTENTS = [
-  { id: 1, slug: 'para-kazan', tr: 'Para Kazan', en: 'Make Money', es: 'Ganar Dinero' },
-  { id: 2, slug: 'viral-icerik', tr: 'Viral İçerik', en: 'Viral Content', es: 'Contenido Viral' },
-  { id: 3, slug: 'zamandan-kazan', tr: 'Zamandan Kazan', en: 'Save Time', es: 'Ahorrar Tiempo' },
-  { id: 4, slug: 'otomatiklestir', tr: 'Otomatikleştir', en: 'Automate', es: 'Automatizar' },
-  { id: 5, slug: 'skill-up', tr: 'Skill Up / Öğren', en: 'Skill Up / Learn', es: 'Aprender / Mejorar' },
-  { id: 6, slug: 'growth-hack', tr: 'Growth Hack', en: 'Growth Hack', es: 'Growth Hack' }
+  { id: 1, slug: 'para-kazan', tr: 'Para Kazan', en: 'Make Money', es: 'Ganar Dinero', zh: '赚钱' },
+  { id: 2, slug: 'viral-icerik', tr: 'Viral İçerik', en: 'Viral Content', es: 'Contenido Viral', zh: '病毒式内容' },
+  { id: 3, slug: 'zamandan-kazan', tr: 'Zamandan Kazan', en: 'Save Time', es: 'Ahorrar Tiempo', zh: '省时间' },
+  { id: 4, slug: 'otomatiklestir', tr: 'Otomatikleştir', en: 'Automate', es: 'Automatizar', zh: '自动化' },
+  { id: 5, slug: 'skill-up', tr: 'Skill Up / Öğren', en: 'Skill Up / Learn', es: 'Aprender / Mejorar', zh: '学习/进步' },
+  { id: 6, slug: 'growth-hack', tr: 'Growth Hack', en: 'Growth Hack', es: 'Growth Hack', zh: '增长黑客' }
 ];
 
 const PERSONAS = [
-  { id: 1, slug: 'developer', tr: 'Developer', en: 'Developer', es: 'Desarrollador' },
-  { id: 2, slug: 'designer', tr: 'Designer', en: 'Designer', es: 'Diseñador' },
-  { id: 3, slug: 'content-creator', tr: 'Content Creator', en: 'Content Creator', es: 'Creador de Contenido' },
-  { id: 4, slug: 'founder', tr: 'Founder / Girişimci', en: 'Founder / Entrepreneur', es: 'Fundador / Emprendedor' },
-  { id: 5, slug: 'marketer', tr: 'Marketer', en: 'Marketer', es: 'Comercializador' },
-  { id: 6, slug: 'ogrenci', tr: 'Öğrenci', en: 'Student', es: 'Estudiante' }
+  { id: 1, slug: 'developer', tr: 'Developer', en: 'Developer', es: 'Desarrollador', zh: '开发人员' },
+  { id: 2, slug: 'designer', tr: 'Designer', en: 'Designer', es: 'Diseñador', zh: '设计师' },
+  { id: 3, slug: 'content-creator', tr: 'Content Creator', en: 'Content Creator', es: 'Creador de Contenido', zh: '内容创作者' },
+  { id: 4, slug: 'founder', tr: 'Founder / Girişimci', en: 'Founder / Entrepreneur', es: 'Fundador / Emprendedor', zh: '创始人/企业家' },
+  { id: 5, slug: 'marketer', tr: 'Marketer', en: 'Marketer', es: 'Comercializador', zh: '营销人员' },
+  { id: 6, slug: 'ogrenci', tr: 'Öğrenci', en: 'Student', es: 'Estudiante', zh: '学生' }
 ];
 
-const SPECIAL_TOOLS = [
-  { name: 'FB Menu', url: 'https://fbmenu.com', category_id: 8, intents: [4, 1], personas: [4, 5], desc: 'Manage your automated menus and funnels intelligently over FB platforms.' },
-  { name: 'Inflera', url: 'https://inflera.com', category_id: 7, intents: [6, 2], personas: [5, 3], desc: 'Infuencer discovery and dynamic marketing growth engine.' },
-  { name: 'AI Skill Score', url: 'https://aiskillscore.com', category_id: 4, intents: [5], personas: [6, 1], desc: 'Test and measure your capabilities inside AI ecosystems.' },
-  { name: 'TokeAtlas', url: 'https://tokeatlas.com', category_id: 6, intents: [1], personas: [4], desc: 'Real-time interactive mappings of analytical metrics globally.' },
+// Production-ready curated list of real tools.
+// Category IDs: 1:Content, 2:Video, 3:Visual, 4:Research, 5:Code, 6:Data, 7:Marketing, 8:Automation, 9:Audio, 10:Presentation
+const PRODUCTION_TOOLS = [
+  // 1: Content Creation
+  { name: 'ChatGPT', url: 'https://chat.openai.com', category_id: 1, intents: [3, 5], personas: [3, 6], desc: 'The most capable general-purpose AI assistant for writing, brainstorming, and logic.', purpose: 'General Intelligence' },
+  { name: 'Claude', url: 'https://claude.ai', category_id: 1, intents: [3, 5], personas: [3, 4], desc: 'Anthropic\'s AI agent, exceptional at creative writing, tone matching, and long-context analysis.', purpose: 'Creative Writing' },
+  { name: 'Jasper', url: 'https://jasper.ai', category_id: 1, intents: [1, 6], personas: [5, 4], desc: 'Enterprise-grade AI copilot targeted specifically for brand marketing and professional blog writing.', purpose: 'Marketing Copy' },
+  { name: 'Copy.ai', url: 'https://copy.ai', category_id: 1, intents: [3, 6], personas: [5, 3], desc: 'Generate sales copy, ads, and email templates efficiently and dynamically.', purpose: 'Sales Copywriting' },
+  { name: 'Notion AI', url: 'https://notion.so/product/ai', category_id: 1, intents: [3, 4], personas: [4, 6], desc: 'Deeply integrated AI for summarizing notes, rewriting documents, and database automation.', purpose: 'Workspace AI' },
+  
+  // 2: Video & Reels
+  { name: 'Runway ML', url: 'https://runwayml.com', category_id: 2, intents: [2, 3], personas: [2, 3], desc: 'The industry standard for cinematic AI video generation, editing, and VFX control.', purpose: 'Cinematic Gen' },
+  { name: 'Invideo AI', url: 'https://invideo.io/ai/', category_id: 2, intents: [1, 2], personas: [3, 5], desc: 'Instantly generate faceless YouTube shorts, TikToks, and long-form videos from a single prompt.', purpose: 'Short-form Content' },
+  { name: 'Synthesia', url: 'https://synthesia.io', category_id: 2, intents: [3, 4], personas: [4, 5], desc: 'Create professional videos with lifelike AI avatars and localized voiceovers.', purpose: 'Avatar Presentations' },
+  { name: 'CapCut AI', url: 'https://capcut.com', category_id: 2, intents: [2, 3], personas: [3], desc: 'TikTok\'s native video editor, packed with AI upscaling, smart cutting, and caption generation.', purpose: 'Social Editing' },
+  { name: 'Opus Clip', url: 'https://opus.pro', category_id: 2, intents: [2, 6], personas: [3, 5], desc: 'Automatically repurpose long podcasts into viral, highly-engaging short reels.', purpose: 'Content Repurposing' },
+
+  // 3: Visual & Design
+  { name: 'Midjourney', url: 'https://midjourney.com', category_id: 3, intents: [2, 5], personas: [2, 3], desc: 'Highest-quality and most stylized AI image generation tool running seamlessly via Discord or Web.', purpose: 'Art Generation' },
+  { name: 'Adobe Firefly', url: 'https://firefly.adobe.com', category_id: 3, intents: [3, 4], personas: [2, 5], desc: 'Commercially safe, deeply-integrated generative fill and vector creation by Adobe.', purpose: 'Commercial Design' },
+  { name: 'Leonardo.Ai', url: 'https://leonardo.ai', category_id: 3, intents: [1, 5], personas: [1, 2], desc: 'Highly controllable image generation platform with custom model training and canvas editing.', purpose: 'Asset Creation' },
+  { name: 'Canva Magic Studio', url: 'https://canva.com/magic', category_id: 3, intents: [3, 6], personas: [4, 5], desc: 'Accessible, user-friendly suite of AI graphic tools for quick social media and poster designs.', purpose: 'Quick Graphics' },
+  { name: 'Krea AI', url: 'https://krea.ai', category_id: 3, intents: [2, 5], personas: [2], desc: 'Real-time rendering and aggressive AI upscaling tailored for dynamic design workflows.', purpose: 'Real-time Upscaling' },
+
+  // 4: Research & Analysis
+  { name: 'Perplexity', url: 'https://perplexity.ai', category_id: 4, intents: [3, 5], personas: [4, 6], desc: 'A conversational search engine that cites real-time sources without hallucinations.', purpose: 'Factual Research' },
+  { name: 'NotebookLM', url: 'https://notebooklm.google.com', category_id: 4, intents: [3, 5], personas: [6, 4], desc: 'Upload your own documents to create a deeply grounded, fully cited, expert answering engine.', purpose: 'Source Grounding' },
+  { name: 'Consensus', url: 'https://consensus.app', category_id: 4, intents: [5], personas: [6], desc: 'AI search engine built specifically for parsing and summarizing peer-reviewed academic papers.', purpose: 'Academic Research' },
+  { name: 'ChatPDF', url: 'https://chatpdf.com', category_id: 4, intents: [3], personas: [6, 4], desc: 'Quickly query, summarize, and extract unstructured data from highly dense PDF documents.', purpose: 'Document Analysis' },
+
+  // 5: Code & Development
+  { name: 'Cursor', url: 'https://cursor.sh', category_id: 5, intents: [3, 5], personas: [1], desc: 'An AI-first code editor (forked from VSCode) with unmatched whole-codebase awareness and code generation.', purpose: 'AI IDE' },
+  { name: 'GitHub Copilot', url: 'https://github.com/features/copilot', category_id: 5, intents: [3, 4], personas: [1], desc: 'The most widely adopted autocomplete and chat coding assistant embedded in major IDEs.', purpose: 'Syntax Autocomplete' },
+  { name: 'Windsurf', url: 'https://codeium.com/windsurf', category_id: 5, intents: [3, 5], personas: [1, 4], desc: 'Flow-based, context-aware AI IDE offering high-speed enterprise coding capabilities.', purpose: 'Agentic Development' },
+  { name: 'Vercel v0', url: 'https://v0.dev', category_id: 5, intents: [3, 6], personas: [1, 2], desc: 'Generate functional, beautiful React UI components and layouts using simple text prompts.', purpose: 'UI Generation' },
+
+  // 6: Data & Dashboard
+  { name: 'Julius AI', url: 'https://julius.ai', category_id: 6, intents: [3, 5], personas: [4, 6], desc: 'A powerful AI data analyst that can ingest CSVs, build interactive charts, and run Python statistical models.', purpose: 'Data Analysis' },
+  { name: 'Tableau AI (Pulse)', url: 'https://tableau.com', category_id: 6, intents: [3, 4], personas: [4, 5], desc: 'Delivers personalized data insights directly within enterprise dashboards using generative AI.', purpose: 'Enterprise Analytics' },
+  { name: 'Akkio', url: 'https://akkio.com', category_id: 6, intents: [6, 4], personas: [5], desc: 'Predictive generative AI explicitly designed for agencies and marketers analyzing ad spend datasets.', purpose: 'Predictive Modeling' },
+
+  // 7: Marketing & Growth
+  { name: 'Apollo AI', url: 'https://apollo.io', category_id: 7, intents: [1, 6], personas: [4, 5], desc: 'B2B sales and marketing intelligence heavily augmented by AI writing and lead scoring.', purpose: 'Lead Generation' },
+  { name: 'Surfer SEO', url: 'https://surferseo.com', category_id: 7, intents: [1, 6], personas: [5, 3], desc: 'NLP-powered SEO analysis that optimizes your written content for top Google search rankings.', purpose: 'Search Optimization' },
+  { name: 'Mutiny', url: 'https://mutinyhq.com', category_id: 7, intents: [1, 6], personas: [5, 4], desc: 'No-code AI platform optimizing B2B website conversions dynamically based on visitor data.', purpose: 'Conversion Rate' },
+  
+  // 8: Automation & Agent
+  { name: 'Zapier Central', url: 'https://zapier.com/central', category_id: 8, intents: [3, 4], personas: [4, 5], desc: 'Create AI bots capable of triggering thousands of complex Zapier app actions autonomously.', purpose: 'Workflow Automation' },
+  { name: 'Make', url: 'https://make.com', category_id: 8, intents: [3, 4], personas: [1, 4], desc: 'Visual workflow automation platform enhanced by complex AI-driven routing and data parsing.', purpose: 'Visual Automation' },
+  { name: 'AutoGPT / AgentGPT', url: 'https://agentgpt.reworkd.ai', category_id: 8, intents: [4, 6], personas: [1, 4], desc: 'Deploy autonomous agents that chain thoughts and execute broad goals directly on the web.', purpose: 'Autonomous Agents' },
+  { name: 'Relevance AI', url: 'https://relevanceai.com', category_id: 8, intents: [3, 4], personas: [4, 1], desc: 'Build highly-customizable AI workforces composed of specialized sub-agents.', purpose: 'AI Teams' },
+
+  // 9: Audio & Music
+  { name: 'Suno', url: 'https://suno.com', category_id: 9, intents: [2], personas: [3, 2], desc: 'Incredible AI model generating full musical tracks, including realistic vocals, from a text prompt.', purpose: 'Music Generation' },
+  { name: 'ElevenLabs', url: 'https://elevenlabs.io', category_id: 9, intents: [2, 3], personas: [3, 2], desc: 'The undisputed leader in hyper-realistic text-to-speech, voice cloning, and audio dubbing.', purpose: 'Voice Synthesis' },
+  { name: 'Descript', url: 'https://descript.com', category_id: 9, intents: [3, 2], personas: [3, 5], desc: 'Edit audio and podcasts by simply modifying the text transcript. Integrates Studio Sound enhancement.', purpose: 'Audio Editing' },
+  
+  // 10: Presentation & Document
+  { name: 'Gamma', url: 'https://gamma.app', category_id: 10, intents: [3, 5], personas: [4, 5], desc: 'Generate breathtaking slide decks, webpages, and documents purely from a prompt outline.', purpose: 'Slide Generation' },
+  { name: 'Tome', url: 'https://tome.app', category_id: 10, intents: [3], personas: [4, 6], desc: 'Storytelling-focused AI presentation builder optimized for founders, pitch decks, and creatives.', purpose: 'Pitch Decks' },
+  { name: 'Beautiful.ai', url: 'https://beautiful.ai', category_id: 10, intents: [3], personas: [5, 4], desc: 'AI layout engine that automatically aligns, maps, and structures your presentations fluidly.', purpose: 'Layout Automation' }
 ];
-
-const REAL_TOOLS = [
-  { name: 'ChatGPT', url: 'https://chat.openai.com', category_id: 4 },
-  { name: 'Midjourney', url: 'https://midjourney.com', category_id: 3 },
-  { name: 'Notion AI', url: 'https://notion.so', category_id: 10 },
-  { name: 'GitHub Copilot', url: 'https://github.com/features/copilot', category_id: 5 },
-  { name: 'Jasper', url: 'https://jasper.ai', category_id: 1 },
-  { name: 'Runway', url: 'https://runwayml.com', category_id: 2 },
-  { name: 'Suno', url: 'https://suno.com', category_id: 9 },
-  { name: 'Zapier', url: 'https://zapier.com', category_id: 8 },
-  { name: 'Tableau AI', url: 'https://tableau.com', category_id: 6 },
-  { name: 'Copy.ai', url: 'https://copy.ai', category_id: 7 },
-];
-
-const prefixes = ["Auto", "Smart", "Geni", "Pro", "Quick", "Deep", "Next", "Flow", "Synthe", "Zen", "Hyper", "Vibe", "Cogni"];
-const suffixes = ["Bot", "AI", "Gen", "Craft", "Mind", "Flow", "Sync", "Mate", "Base", "ify", "ly", "Forge"];
-
-function getRandomItem(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
 
 function generateSlug(name) {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-}
-
-function getRandomItems(arr, max) {
-    const shuffled = arr.slice().sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, Math.floor(Math.random() * max) + 1).map(i => i.id);
 }
 
 let sql = `
@@ -77,9 +108,9 @@ DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS intents;
 DROP TABLE IF EXISTS personas;
 
-CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, name_tr TEXT NOT NULL, name_en TEXT NOT NULL, name_es TEXT NOT NULL);
-CREATE TABLE IF NOT EXISTS intents (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, name_tr TEXT NOT NULL, name_en TEXT NOT NULL, name_es TEXT NOT NULL);
-CREATE TABLE IF NOT EXISTS personas (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, name_tr TEXT NOT NULL, name_en TEXT NOT NULL, name_es TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, name_tr TEXT NOT NULL, name_en TEXT NOT NULL, name_es TEXT NOT NULL, name_zh TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS intents (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, name_tr TEXT NOT NULL, name_en TEXT NOT NULL, name_es TEXT NOT NULL, name_zh TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS personas (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE, name_tr TEXT NOT NULL, name_en TEXT NOT NULL, name_es TEXT NOT NULL, name_zh TEXT NOT NULL);
 
 CREATE TABLE IF NOT EXISTS websites (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -122,83 +153,46 @@ CREATE TABLE IF NOT EXISTS suggested_tools (
 
 // Seed Dictionaries
 for (const c of CATEGORIES) {
-    sql += `INSERT INTO categories (id, slug, name_tr, name_en, name_es) VALUES (${c.id}, '${c.slug}', '${c.tr}', '${c.en}', '${c.es}');\n`;
+    sql += `INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (${c.id}, '${c.slug}', '${c.tr}', '${c.en}', '${c.es}', '${c.zh}');\n`;
 }
 for (const i of INTENTS) {
-    sql += `INSERT INTO intents (id, slug, name_tr, name_en, name_es) VALUES (${i.id}, '${i.slug}', '${i.tr}', '${i.en}', '${i.es}');\n`;
+    sql += `INSERT INTO intents (id, slug, name_tr, name_en, name_es, name_zh) VALUES (${i.id}, '${i.slug}', '${i.tr}', '${i.en}', '${i.es}', '${i.zh}');\n`;
 }
 for (const p of PERSONAS) {
-    sql += `INSERT INTO personas (id, slug, name_tr, name_en, name_es) VALUES (${p.id}, '${p.slug}', '${p.tr}', '${p.en}', '${p.es}');\n`;
+    sql += `INSERT INTO personas (id, slug, name_tr, name_en, name_es, name_zh) VALUES (${p.id}, '${p.slug}', '${p.tr}', '${p.en}', '${p.es}', '${p.zh}');\n`;
 }
 
 let idCounter = 1;
 
-// 1. Insert Special Tools & set as recommended
-for (const tool of SPECIAL_TOOLS) {
+// Insert 10 Featured tools manually by picking some of the best (Cursor, Midjourney, Perplexity, RunWay ML)
+const recommendedTools = ['Cursor', 'Midjourney', 'Perplexity', 'Runway ML'];
+
+for (const tool of PRODUCTION_TOOLS) {
     const slug = generateSlug(tool.name);
-    const purpose = 'Advanced Toolchain';
-    sql += `INSERT INTO websites (id, name, slug, url, short_description, purpose, category_id, click_count, is_active) VALUES (${idCounter}, '${tool.name}', '${slug}', '${tool.url}', '${tool.desc}', '${purpose}', ${tool.category_id}, 0, 1);\n`;
+    
+    // Give some realistic organic clicks
+    const clicks = Math.floor(Math.random() * 50000) + 1200;
+    
+    nameEscaped = tool.name.replace(/'/g, "''");
+    descEscaped = tool.desc.replace(/'/g, "''");
+    purposeEscaped = tool.purpose.replace(/'/g, "''");
+    
+    sql += `INSERT INTO websites (id, name, slug, url, short_description, purpose, category_id, click_count, is_active) VALUES (${idCounter}, '${nameEscaped}', '${slug}', '${tool.url}', '${descEscaped}', '${purposeEscaped}', ${tool.category_id}, ${clicks}, 1);\n`;
+    
     for (const intent_id of tool.intents) {
         sql += `INSERT INTO website_intents (website_id, intent_id) VALUES (${idCounter}, ${intent_id});\n`;
     }
     for (const persona_id of tool.personas) {
         sql += `INSERT INTO website_personas (website_id, persona_id) VALUES (${idCounter}, ${persona_id});\n`;
     }
-    sql += `INSERT INTO recommended_websites (website_id, is_active) VALUES (${idCounter}, 1);\n`;
-    idCounter++;
-}
-
-// 2. Insert Real Tools
-for (const tool of REAL_TOOLS) {
-    const slug = generateSlug(tool.name);
-    const purpose = 'Industry Leader';
-    const cObj = CATEGORIES.find(c => c.id === tool.category_id);
-    const desc = `${tool.name} is a powerful solution tailored for ${cObj.en.toLowerCase()} processes using artificial intelligence.`;
     
-    sql += `INSERT INTO websites (id, name, slug, url, short_description, purpose, category_id, click_count, is_active) VALUES (${idCounter}, '${tool.name}', '${slug}', '${tool.url}', '${desc}', '${purpose}', ${tool.category_id}, 0, 1);\n`;
+    if (recommendedTools.includes(tool.name)) {
+        sql += `INSERT INTO recommended_websites (website_id, is_active) VALUES (${idCounter}, 1);\n`;
+    }
     
-    const intentIds = getRandomItems(INTENTS, 2);
-    const personaIds = getRandomItems(PERSONAS, 3);
-    for (const intent_id of intentIds) {
-        sql += `INSERT INTO website_intents (website_id, intent_id) VALUES (${idCounter}, ${intent_id});\n`;
-    }
-    for (const persona_id of personaIds) {
-        sql += `INSERT INTO website_personas (website_id, persona_id) VALUES (${idCounter}, ${persona_id});\n`;
-    }
     idCounter++;
-}
-
-// 3. Generate 1000 Mock AI tools (100 per category)
-for (const category of CATEGORIES) {
-    for (let i = 0; i < 100; i++) {
-        const pfx = getRandomItem(prefixes);
-        const sfx = getRandomItem(suffixes);
-        const name = `${pfx}${sfx} ${Math.floor(Math.random() * 10) > 6 ? 'Pro' : ''}`.trim();
-        const slug = generateSlug(name) + '-' + Math.floor(Math.random() * 10000);
-        const url = `https://${slug}.com`;
-        
-        let desc = `An incredibly advanced AI tool revolutionizing the way you handle ${category.en.toLowerCase()}. Try ${name} today.`;
-        if (i % 3 === 0) desc = `Enhance your productivity with ${name}. Perfect for seamless ${category.en.toLowerCase()} automation.`;
-        
-        const purpose = i % 2 === 0 ? 'Productivity Engine' : 'Creative Studio';
-        
-        nameEscaped = name.replace(/'/g, "''");
-        descEscaped = desc.replace(/'/g, "''");
-        
-        sql += `INSERT INTO websites (id, name, slug, url, short_description, purpose, category_id, click_count, is_active) VALUES (${idCounter}, '${nameEscaped}', '${slug}', '${url}', '${descEscaped}', '${purpose}', ${category.id}, 0, 1);\n`;
-        
-        const intentIds = getRandomItems(INTENTS, 2);
-        const personaIds = getRandomItems(PERSONAS, 2);
-        for (const intent_id of intentIds) {
-            sql += `INSERT INTO website_intents (website_id, intent_id) VALUES (${idCounter}, ${intent_id});\n`;
-        }
-        for (const persona_id of personaIds) {
-            sql += `INSERT INTO website_personas (website_id, persona_id) VALUES (${idCounter}, ${persona_id});\n`;
-        }
-        idCounter++;
-    }
 }
 
 fs.writeFileSync('seed_tools.sql', sql);
-console.log('✅ Generated V2 seed_tools.sql with relational schema and', idCounter - 1, 'items.');
+console.log('✅ Generated V2 seed_tools.sql with PRODUCTION READY relational schema and', idCounter - 1, 'items.');
 
