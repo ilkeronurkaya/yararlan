@@ -20,10 +20,11 @@ async function getRecommendedTools(apiUrl: string) {
   }
 }
 
-async function getAllTools(apiUrl: string, query?: string, category_id?: string, page?: number, intent_id?: string, persona_id?: string) {
+async function getAllTools(apiUrl: string, query?: string, category_id?: string, page?: number, intent_id?: string, persona_id?: string, pricing_type?: string) {
   try {
     const url = new URL(`${apiUrl}/api/websites`);
     if (query) url.searchParams.set('q', query);
+    if (pricing_type) url.searchParams.set('pricing_type', pricing_type);
     if (category_id) url.searchParams.set('category_id', category_id);
     if (intent_id) url.searchParams.set('intent_id', intent_id);
     if (persona_id) url.searchParams.set('persona_id', persona_id);
@@ -62,22 +63,23 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; category_id?: string; page?: string; intent_id?: string; persona_id?: string }> | any;
+  searchParams: Promise<{ q?: string; category_id?: string; page?: string; intent_id?: string; persona_id?: string; pricing_type?: string }> | any;
 }) {
   const resolvedParams = await searchParams;
   const q = resolvedParams?.q;
   const category_id = resolvedParams?.category_id;
   const intent_id = resolvedParams?.intent_id;
   const persona_id = resolvedParams?.persona_id;
+  const pricing_type = resolvedParams?.pricing_type;
   const page = parseInt(resolvedParams?.page || '1', 10);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://yararlan-api.ilkeronurkaya.workers.dev';
 
   const recommendedTools = await getRecommendedTools(API_URL);
-  const allTools = await getAllTools(API_URL, q, category_id, page, intent_id, persona_id);
+  const allTools = await getAllTools(API_URL, q, category_id, page, intent_id, persona_id, pricing_type);
 
   // Derived sections based on Master Plan when no search is active
-  const isSearchActive = q || category_id || intent_id || persona_id || page > 1;
+  const isSearchActive = q || category_id || intent_id || persona_id || pricing_type || page > 1;
   const trendingTools = allTools.slice(0, 6);
   const turkishTools = allTools.filter((t: any) => t.turkish_support === 1).slice(0, 3);
   const freeTools = allTools.filter((t: any) => t.pricing_type === 'Free').slice(0, 3);
@@ -88,7 +90,24 @@ export default async function Home({
     'itemListElement': allTools.map((tool: any, index: number) => ({
       '@type': 'ListItem',
       'position': index + 1,
-      'url': `https://yararlan.com/?category_id=${encodeURIComponent(tool.category?.id || '')}`
+      'item': {
+        '@type': 'SoftwareApplication',
+        'name': tool.name,
+        'url': tool.url,
+        'description': tool.short_description || 'AI Tool',
+        'applicationCategory': tool.category?.name || 'BusinessApplication',
+        'operatingSystem': 'Web',
+        'offers': {
+          '@type': 'Offer',
+          'price': tool.pricing_type === 'Free' ? '0' : '0',
+          'priceCurrency': 'USD'
+        },
+        'aggregateRating': {
+          '@type': 'AggregateRating',
+          'ratingValue': tool.rating_score || 4.5,
+          'reviewCount': tool.click_count || 10
+        }
+      }
     }))
   };
 
@@ -121,7 +140,7 @@ export default async function Home({
             <a href="#results" className="px-6 py-3 bg-primary text-white font-bold rounded-full shadow-lg hover:bg-opacity-90 transition-all flex items-center gap-2">
               Araç Keşfet <span className="material-symbols-outlined text-sm">explore</span>
             </a>
-            <a href="/?q=ücretsiz" className="px-6 py-3 bg-white dark:bg-surface-container border border-outline-variant/30 text-on-surface font-bold rounded-full hover:shadow-md transition-all">
+            <a href="/?pricing_type=Free" className="px-6 py-3 bg-white dark:bg-surface-container border border-outline-variant/30 text-on-surface font-bold rounded-full hover:shadow-md transition-all">
               Ücretsiz Araçlar
             </a>
           </div>
@@ -136,7 +155,7 @@ export default async function Home({
                  {category_id ? <>KATEGORİ</> : <LocalizedString id="directory" />}
                </span>
                <h2 className="text-[2rem] font-bold tracking-tight text-on-surface">
-                 {q ? `"${q}" İçin Arama Sonuçları` : (category_id ? "Kategori Sonuçları" : <LocalizedString id="category_title" />)}
+                 {q ? `"${q}" İçin Arama Sonuçları` : (pricing_type === 'Free' ? "Ücretsiz Yapay Zeka Araçları" : (category_id ? "Kategori Sonuçları" : <LocalizedString id="category_title" />))}
                </h2>
             </div>
 

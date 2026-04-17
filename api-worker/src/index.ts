@@ -31,6 +31,7 @@ app.get('/api/websites', async (c) => {
   const category_id = c.req.query('category_id');
   const intent_id = c.req.query('intent_id');
   const persona_id = c.req.query('persona_id');
+  const pricing_type = c.req.query('pricing_type');
   const pageParam = c.req.query('page');
   
   const page = parseInt(pageParam || '1', 10);
@@ -43,6 +44,11 @@ app.get('/api/websites', async (c) => {
   if (q) {
     query += ' AND (w.name LIKE ? OR w.short_description LIKE ?)';
     params.push(`%${q}%`, `%${q}%`);
+  }
+  
+  if (pricing_type) {
+    query += ' AND w.pricing_type = ?';
+    params.push(pricing_type);
   }
   
   if (category_id) {

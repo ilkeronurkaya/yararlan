@@ -10,9 +10,40 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Yararlan | Dijital Küratör İçin AI Dizin",
-  description: "İnternetin en iyi yapay zeka araçlarını keşfedin. Searchable AI tool directory for the modern digital curator.",
-  keywords: ["ai tools", "yapay zeka", "dizin", "yararlan", "directory", "curation"],
+  metadataBase: new URL('https://yararlan.com'),
+  title: {
+    default: "Yararlan | Dijital Küratör İçin AI Keşif Motoru",
+    template: "%s | Yararlan"
+  },
+  description: "İnternetin en iyi yapay zeka araçlarını keşfedin, ücretsiz ve ücretli GPT varyasyonlarını karşılaştırın. Searchable AI tool directory for the modern digital curator.",
+  keywords: ["ai tools", "yapay zeka", "dizin", "yararlan", "directory", "curation", "ai arama motoru"],
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Yararlan | AI Keşif Motoru',
+    description: 'En gelişmiş yapay zeka araçlarını ve GPT-4 tabanlı asistanları Yararlan ile saniyeler içinde keşfedin.',
+    url: 'https://yararlan.com',
+    siteName: 'Yararlan',
+    locale: 'tr_TR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Yararlan | AI Keşif Motoru',
+    description: 'En popüler yapay zeka araçlarını keşfetmeye başlayın.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

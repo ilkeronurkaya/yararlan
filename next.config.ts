@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
-  }
+  },
+  serverExternalPackages: ["linkinator"],
 };
 
 export default nextConfig;

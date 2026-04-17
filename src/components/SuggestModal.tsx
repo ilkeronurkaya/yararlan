@@ -16,12 +16,14 @@ export default function SuggestModal({ isOpen, onClose }: { isOpen: boolean; onC
 
     setLoading(true);
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://yararlan-api.ilkeronurkaya.workers.dev';
-      const res = await fetch(`${apiUrl}/api/suggest`, {
+      const res = await fetch(`/api/suggest`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ website_name: websiteName }),
       });
+      
+      const data = await res.json();
+      
       if (res.ok) {
         setSuccess(true);
         setTimeout(() => {
@@ -29,6 +31,8 @@ export default function SuggestModal({ isOpen, onClose }: { isOpen: boolean; onC
           setWebsiteName('');
           onClose();
         }, 3000);
+      } else {
+        alert(data.error || 'Bu URL kullanılamıyor.');
       }
     } catch (err) {
       console.error(err);
