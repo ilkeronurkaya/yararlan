@@ -21,14 +21,7 @@ CREATE TABLE IF NOT EXISTS websites (
   purpose TEXT,
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
   click_count INTEGER DEFAULT 0,
-  is_active INTEGER DEFAULT 1,
-  turkish_support INTEGER DEFAULT 0,
-  pricing_type TEXT DEFAULT 'Free',
-  rating_score REAL DEFAULT 0.0,
-  monthly_visits INTEGER DEFAULT 0,
-  seo_title TEXT,
-  seo_desc TEXT,
-  tags TEXT
+  is_active INTEGER DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS website_intents (
@@ -58,18 +51,14 @@ CREATE TABLE IF NOT EXISTS suggested_tools (
 
 INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (1, 'icerik-uretimi', 'İçerik Üretimi', 'Content Creation', 'Creación de Contenido', '内容创作');
 INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (2, 'video-reels', 'Video & Reels', 'Video & Reels', 'Video y Reels', '视频和短卷');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (3, 'gorsel-tasarim', 'Görsel Tasarım', 'Visual/Design', 'Visual/Diseño', '视觉/设计');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (4, 'arastirma-analiz', 'Araştırma', 'Research & Analysis', 'Investigación y Analítica', '研究与分析');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (5, 'kodlama', 'Kodlama', 'Code & Development', 'Código y Desarrollo', '代码与开发');
+INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (3, 'gorsel-tasarim', 'Görsel/Tasarım', 'Visual/Design', 'Visual/Diseño', '视觉/设计');
+INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (4, 'arastirma-analiz', 'Araştırma & Analiz', 'Research & Analysis', 'Investigación y Analítica', '研究与分析');
+INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (5, 'kod-gelistirme', 'Kod & Geliştirme', 'Code & Development', 'Código y Desarrollo', '代码与开发');
 INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (6, 'veri-dashboard', 'Veri & Dashboard', 'Data & Dashboard', 'Datos y Tablero', '数据与仪表盘');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (7, 'pazarlama', 'Pazarlama', 'Marketing & Growth', 'Marketing y Crecimiento', '营销与增长');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (8, 'otomasyon', 'Otomasyon', 'Automation & Agent', 'Automatización y Agente', '自动化与代理');
+INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (7, 'pazarlama-growth', 'Pazarlama & Growth', 'Marketing & Growth', 'Marketing y Crecimiento', '营销与增长');
+INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (8, 'otomasyon-agent', 'Otomasyon & Agent', 'Automation & Agent', 'Automatización y Agente', '自动化与代理');
 INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (9, 'ses-muzik', 'Ses & Müzik', 'Audio & Music', 'Audio y Música', '音频与音乐');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (10, 'sunum', 'Sunum', 'Presentation & Document', 'Presentación y Documento', '演示与文档');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (11, 'freelancer', 'Freelancer', 'Freelancer', 'Freelancer', '自由职业者');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (12, 'e-ticaret', 'E-ticaret', 'E-commerce', 'Comercio Electrónico', '电子商务');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (13, 'ogrenci', 'Öğrenci', 'Student', 'Estudiante', '学生');
-INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (14, 'para-kazanma', 'Para Kazanma', 'Make Money', 'Hacer Dinero', '赚钱');
+INSERT INTO categories (id, slug, name_tr, name_en, name_es, name_zh) VALUES (10, 'sunum-dokuman', 'Sunum & Doküman', 'Presentation & Document', 'Presentación y Documento', '演示与文档');
 INSERT INTO intents (id, slug, name_tr, name_en, name_es, name_zh) VALUES (1, 'para-kazan', 'Para Kazan', 'Make Money', 'Ganar Dinero', '赚钱');
 INSERT INTO intents (id, slug, name_tr, name_en, name_es, name_zh) VALUES (2, 'viral-icerik', 'Viral İçerik', 'Viral Content', 'Contenido Viral', '病毒式内容');
 INSERT INTO intents (id, slug, name_tr, name_en, name_es, name_zh) VALUES (3, 'zamandan-kazan', 'Zamandan Kazan', 'Save Time', 'Ahorrar Tiempo', '省时间');

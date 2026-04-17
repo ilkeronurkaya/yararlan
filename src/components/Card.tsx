@@ -17,8 +17,6 @@ interface IntentObj {
   slug: string;
   name_tr: string;
   name_en: string;
-  name_es: string;
-  name_zh?: string;
 }
 
 interface PersonaObj {
@@ -26,8 +24,6 @@ interface PersonaObj {
   slug: string;
   name_tr: string;
   name_en: string;
-  name_es: string;
-  name_zh?: string;
 }
 
 interface CardProps {
@@ -42,6 +38,10 @@ interface CardProps {
   purpose?: string;
   intents?: IntentObj[];
   personas?: PersonaObj[];
+  pricing_type?: string;
+  rating_score?: number;
+  turkish_support?: number;
+  monthly_visits?: number;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -55,7 +55,11 @@ const Card: React.FC<CardProps> = ({
   click_count,
   purpose,
   intents,
-  personas
+  personas,
+  pricing_type = 'Free',
+  rating_score = 0.0,
+  turkish_support = 0,
+  monthly_visits = 0,
 }) => {
   const { t, language } = useLanguage();
 
@@ -74,88 +78,108 @@ const Card: React.FC<CardProps> = ({
         tool_id: id,
         tool_name: name,
         primary_category: getTranslatedName(category),
-        intent_tags: intents?.map(getTranslatedName).join(',') || '',
-        persona_tags: personas?.map(getTranslatedName).join(',') || '',
         destination_domain: url
       });
     }
 
-    // 1. Call POST /api/click
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://yararlan-api.ilkeronurkaya.workers.dev';
       fetch(`${API_URL}/api/click`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug }),
       });
     } catch (error) {
       console.error('Failed to register click:', error);
     }
     
-    // 2. Open external URL in new tab
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
     <div 
       onClick={handleClick}
-      className="bg-surface-container-lowest p-8 rounded-xl group hover:translate-y-[-4px] transition-all duration-300 cursor-pointer"
+      className="bg-white/40 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg p-6 rounded-2xl group hover:-translate-y-1 hover:shadow-xl hover:border-primary/50 transition-all duration-300 cursor-pointer flex flex-col h-full"
     >
-      <div className="flex justify-between items-start mb-6">
-        <div className="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
-          {logo_url ? (
-            <img src={logo_url} alt={name} className="w-8 h-8 object-contain" />
-          ) : (
-            <span className="material-symbols-outlined text-primary">auto_fix</span>
-          )}
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 bg-white dark:bg-surface-container rounded-xl flex items-center justify-center shadow-sm overflow-hidden border border-outline-variant/30">
+            {logo_url ? (
+              <img src={logo_url} alt={name} className="w-9 h-9 object-contain" />
+            ) : (
+              <span className="material-symbols-outlined text-primary text-2xl">auto_fix</span>
+            )}
+          </div>
+          <div>
+            <h3 className="text-xl font-bold group-hover:text-primary transition-colors text-on-surface">
+              {name}
+            </h3>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-xs font-semibold px-2 py-0.5 bg-primary-container text-on-primary-container rounded uppercase tracking-wide">
+                {pricing_type}
+              </span>
+              {turkish_support === 1 && (
+                <span className="text-xs px-2 py-0.5 bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 rounded flex items-center gap-1 font-medium" title="Türkçe Destekli">
+                  <span className="material-symbols-outlined text-[12px]">g_translate</span>
+                  TR
+                </span>
+              )}
+            </div>
+          </div>
         </div>
-        <div className="flex gap-2">
-          {category && (
-            <span className="text-[10px] font-bold uppercase tracking-widest text-outline">
-              {getTranslatedName(category)}
-            </span>
-          )}
-          {intents && intents.length > 0 && (
-             <span className="text-[10px] font-bold tracking-widest px-2 py-1 bg-surface-container-high rounded text-on-surface-variant flex items-center">
-               <span className="material-symbols-outlined text-[12px] mr-1">campaign</span>
-               {getTranslatedName(intents[0])}
-             </span>
-          )}
-        </div>
+        
+        {rating_score > 0 && (
+          <div className="flex flex-col items-end">
+            <div className="flex items-center gap-1 bg-surface ring-1 ring-outline/20 px-2.5 py-1 rounded-full shadow-sm">
+              <span className="material-symbols-outlined text-[14px] text-yellow-500 fill-current">star</span>
+              <span className="text-sm font-bold text-on-surface">{rating_score.toFixed(1)}</span>
+            </div>
+          </div>
+        )}
       </div>
       
-      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-        {name}
-      </h3>
-      
-      <p className="text-on-surface-variant text-sm leading-relaxed mb-6">
+      <p className="text-on-surface-variant text-sm leading-relaxed mb-6 flex-grow">
         {short_description}
       </p>
       
-      <div className="flex justify-between items-center mb-6">
+      {/* Category & Top Tags */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {category && (
+          <span className="text-[11px] font-bold tracking-widest px-2 py-1 bg-surface-container rounded text-outline uppercase border border-outline-variant/30">
+            {getTranslatedName(category)}
+          </span>
+        )}
+        {intents && intents.length > 0 && (
+          <span className="text-[11px] font-bold tracking-widest px-2 py-1 bg-surface-container-high rounded text-on-surface-variant flex items-center uppercase">
+            {getTranslatedName(intents[0])}
+          </span>
+        )}
+      </div>
+      
+      <div className="flex justify-between items-center pt-4 border-t border-outline-variant/20 mt-auto">
         <button 
            onClick={(e) => { e.stopPropagation(); handleClick(e); }}
-           className="text-xs font-semibold px-4 py-2 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors flex items-center gap-1"
+           className="text-sm font-semibold px-5 py-2 bg-primary text-on-primary rounded-full hover:bg-opacity-90 transition-all shadow-sm flex items-center gap-1"
         >
-          {t('official_site')} <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+          {t('official_site')} <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
         </button>
-        <button 
-           onClick={(e) => { e.stopPropagation(); }}
-           className="text-outline hover:text-primary transition-colors flex items-center justify-center p-2"
-           title="Save"
-        >
-          <span className="material-symbols-outlined text-xl">bookmark_add</span>
-        </button>
-      </div>
-
-      <div className="pt-5 border-t border-outline-variant/15 flex justify-between items-center text-[10px] font-medium text-outline uppercase tracking-wider">
-        <span>{t('purpose')}: {purpose || getTranslatedName(category)}</span>
-        <span className="flex items-center gap-1">
-          <span className="material-symbols-outlined text-xs">mouse</span>
-          {t('total_clicks')}: {click_count > 1000 ? `${(click_count / 1000).toFixed(1)}k` : click_count}
-        </span>
+        
+        <div className="flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+          <button 
+             onClick={(e) => { e.stopPropagation(); }}
+             className="text-outline hover:text-primary transition-colors flex items-center justify-center p-2 rounded-full hover:bg-primary/10"
+             title="Compare"
+          >
+            <span className="material-symbols-outlined text-[20px]">compare_arrows</span>
+          </button>
+          <button 
+             onClick={(e) => { e.stopPropagation(); }}
+             className="text-outline hover:text-primary transition-colors flex items-center justify-center p-2 rounded-full hover:bg-primary/10"
+             title="Save"
+          >
+            <span className="material-symbols-outlined text-[20px]">bookmark_add</span>
+          </button>
+        </div>
       </div>
     </div>
   );

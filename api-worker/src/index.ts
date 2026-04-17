@@ -16,6 +16,7 @@ app.use('/api/*', cors({
 const getBaseSelect = () => `
 SELECT 
   w.id, w.name, w.slug, w.url, w.short_description, w.purpose, w.click_count, w.is_active,
+  w.turkish_support, w.pricing_type, w.rating_score, w.monthly_visits, w.tags,
   JSON_OBJECT('id', c.id, 'slug', c.slug, 'name_tr', c.name_tr, 'name_en', c.name_en, 'name_es', c.name_es) as category,
   (SELECT JSON_GROUP_ARRAY(JSON_OBJECT('id', i.id, 'slug', i.slug, 'name_tr', i.name_tr, 'name_en', i.name_en, 'name_es', i.name_es)) 
    FROM website_intents wi JOIN intents i ON wi.intent_id = i.id WHERE wi.website_id = w.id) as intents,
