@@ -65,6 +65,14 @@ const SearchBarInner = () => {
   };
 
   const syncTagPush = (key: 'category_id' | 'intent_id' | 'persona_id', value: string | string[]) => {
+    // Telemetry: GA4 Category Click
+    if (typeof window !== 'undefined' && 'gtag' in window && key === 'category_id') {
+      // @ts-ignore
+      window.gtag('event', 'category_selected', {
+        category_id: value
+      });
+    }
+
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', '1'); 
     
@@ -80,6 +88,14 @@ const SearchBarInner = () => {
   };
 
   const executeSearch = (searchQuery: string) => {
+    // Telemetry: GA4 Search
+    if (typeof window !== 'undefined' && 'gtag' in window && searchQuery) {
+      // @ts-ignore
+      window.gtag('event', 'search_executed', {
+        search_term: searchQuery
+      });
+    }
+
     const params = new URLSearchParams(searchParams);
     if (searchQuery) {
       params.set('q', searchQuery);
