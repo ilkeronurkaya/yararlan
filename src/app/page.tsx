@@ -11,10 +11,11 @@ import Script from 'next/script';
 async function getRecommendedTools(apiUrl: string) {
   try {
     const res = await fetch(`${apiUrl}/api/recommended`, { cache: 'no-store' });
-    if (!res.ok) return [];
+    if (!res.ok) console.log("Fetch Error:", error); return [];
     const json = await res.json();
     return json?.data?.slice(0, 3) || [];
   } catch (error) {
+    console.error("Fetch Error:", error);
     return [];
   }
 }
@@ -29,10 +30,14 @@ async function getAllTools(apiUrl: string, query?: string, category_id?: string,
     if (page) url.searchParams.set('page', page.toString());
     
     const res = await fetch(url.toString(), { cache: 'no-store' });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      console.error("API response not ok", res.status);
+      return [];
+    }
     const json = await res.json();
     return json?.data || [];
   } catch (error) {
+    console.error("Fetch Error:", error);
     return [];
   }
 }
